@@ -7,10 +7,7 @@ services:
       sa_password: "C;2nXv#w"
     ports:
     - "1433:1433"
-    # entrypoint: ["powershell", "-Command", "$$ErrorActionPreference='Stop'; $$ProgressPreference='SilentlyContinue';"]
-    command: [
-                "powershell",
-                "-Command",
-                "$$ErrorActionPreference = 'Stop'; $$ProgressPreference = 'SilentlyContinue';",
-                ".\\start -sa_password $$env:sa_password -ACCEPT_EULA $$env:ACCEPT_EULA -attach_dbs \\\"$$env:attach_dbs\\\" -Verbose"
-            ]
+    volumes:
+    - ./init.d:C:/init.d
+    entrypoint: "powershell -File C:\\\\init.d\\\\run-initialization.ps1"
+    command: ".\\\\start -sa_password $$env:sa_password -ACCEPT_EULA $$env:ACCEPT_EULA -attach_dbs \\\"$$env:attach_dbs\\\" -Verbose"
