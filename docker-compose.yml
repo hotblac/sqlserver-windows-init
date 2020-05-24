@@ -1,0 +1,16 @@
+version: '3'
+services:
+  sqlserver:
+    image: microsoft/mssql-server-windows-express:latest
+    environment:
+      ACCEPT_EULA: Y
+      sa_password: "C;2nXv#w"
+    ports:
+    - "1433:1433"
+    # entrypoint: ["powershell", "-Command", "$$ErrorActionPreference='Stop'; $$ProgressPreference='SilentlyContinue';"]
+    command: [
+                "powershell",
+                "-Command",
+                "$$ErrorActionPreference = 'Stop'; $$ProgressPreference = 'SilentlyContinue';",
+                ".\\start -sa_password $$env:sa_password -ACCEPT_EULA $$env:ACCEPT_EULA -attach_dbs \\\"$$env:attach_dbs\\\" -Verbose"
+            ]
